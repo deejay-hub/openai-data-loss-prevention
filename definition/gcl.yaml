@@ -1,0 +1,46 @@
+---
+apiVersion: gateway.mulesoft.com/v1alpha1
+kind: Extension
+metadata:
+  labels:
+    title: OpenAI Data Loss Prevention
+    description: Finds sensitive data in the outbound request to prevent data loss.
+    category: Custom
+spec:
+  extends:
+    - name: extension-definition
+      namespace: default
+  properties:
+    presidio_analysis_service:
+      description: The presidio service used to analyse a string for sensitive information.
+      type: string
+      format: service
+      default: "http://host.docker.internal:5001/analyze"
+    language:
+      type: string
+      description: Two characters for the desired language in ISO_639-1 format
+      default: "en"
+    score_threshold:
+      type: number
+      description: The minimal detection score threshold
+      default: 0.5
+    entities:
+      description: The types of sensitive data to find
+      type: array
+      items:
+        type: string
+      default:
+        [PHONE_NUMBER, PERSON, EMAIL_ADDRESS, US_DRIVER_LICENSE, CREDIT_CARD]
+    action:
+      type: string
+      description: The action when sensitive data is detected in the OpenAI request
+      default: Reject
+      enum:
+        - Reject
+        - Log
+  required:
+    - presidio_analysis_service
+    - language
+    - score_threshold
+    - entities
+    - action
