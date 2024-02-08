@@ -1,7 +1,7 @@
 <div align="center">
 	<img
-	width="50"
-	src="/images/flex-gateway.svg">
+	width="80"
+	src="/images/mulesoft-logo.png">
 	<h1>Open API Data Loss Prevention Policy</h1>
 </div>
 
