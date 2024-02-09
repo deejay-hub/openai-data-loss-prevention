@@ -20,7 +20,7 @@ The component has the following properties that can be set at design time in App
 | Property                                   | Description                                                                                                 | Type                                   |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------| -------------------------------------- |
 | `presidio-analysis-service`                | The Presidio Analyze service location running in Docker                                                     | String    
-| `langauge`                                 | The language used by Presidio in ISO-639_1 format                                                           | String    
+| `langauge`                                 | The language used by Presidio in ISO-639-1 format                                                           | String    
 | `score_threshold`                          | The score threshold in Presidio for it to be flagged as sensitive (0-1)                                     | String    
 | `entities`                                 | An array of entities to look for in the OpenAI request                                                      | Array    
 | `action`                                   | Log - Log sensitive data but continue or Reject - if sensitive data found return 401 (Unauthorized)         | String    
