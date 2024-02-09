@@ -15,7 +15,7 @@
 
 This policy was created with the Flex Gateway Policy Development Kit (PDK). To find the complete PDK documentation, see [PDK Overview](https://docs.mulesoft.com/pdk/latest/policies-pdk-overview) on the MuleSoft documentation site.
 
-The component has the following properties that can be set at design time in App Builder by an administrator
+The policy has the following properties 
 
 | Property                                   | Description                                                                                                 | Type                                   |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------| -------------------------------------- |
