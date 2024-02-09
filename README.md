@@ -90,7 +90,7 @@ If the service is running you will get the response that responds with a match f
 
 Step 3. Download this policy and use `make build` then `make release`.
 
-Step 4. Apply the policy in API Manager to the API created in Step 3. Leave all default options set.
+Step 4. Apply the policy in API Manager to the API created in Step 1. Leave all default options set.
 
 <p align="center">
   <img alt="policy-config" src="images/policy-config.png">
