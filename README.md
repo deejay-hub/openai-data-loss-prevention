@@ -2,7 +2,7 @@
 	<img
 	width="80"
 	src="/images/mulesoft-logo.png">
-	<h1>Open API Data Loss Prevention Policy</h1>
+	<h1>OpenAI API Data Loss Prevention Policy</h1>
 </div>
 
 <h4 align="center">
