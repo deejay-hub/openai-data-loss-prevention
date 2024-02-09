@@ -1,7 +1,132 @@
-# "openai-data-loss-prevention" Policy
+<div align="center">
+	<img
+	width="80"
+	src="/images/mulesoft-logo.png">
+	<h1>Open API Data Loss Prevention Policy</h1>
+</div>
 
-This policy was created with the Flex Gateway Policy Development Kit (PDK). To find the complete PDK documentation, see [PDK Overview](https://docs.mulesoft.com/pdk/latest/policies-pdk-overview) on the Mulesoft documentation site.
+<h4 align="center">
+	<a href="#overview">Overview</a> |
+	<a href="#try-it">Try It</a> |
+  <a href="#make-command-reference">Make Reference</a>
+</h4>
 
+## Overview
+
+This policy was created with the Flex Gateway Policy Development Kit (PDK). To find the complete PDK documentation, see [PDK Overview](https://docs.mulesoft.com/pdk/latest/policies-pdk-overview) on the MuleSoft documentation site.
+
+The component has the following properties that can be set at design time in App Builder by an administrator
+
+| Property                                   | Description                                                                                                 | Type                                   |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------| -------------------------------------- |
+| `presidio-analysis-service`                | The Presidio Analyze service location running in Docker                                                     | String    
+| `langauge`                                 | The language used by Presidio in ISO-639_1 format                                                           | String    
+| `score_threshold`                          | The score threshold in Presidio for it to be flagged as sensitive (0-1)                                     | String    
+| `entities`                                 | An array of entities to look for in the OpenAI request                                                      | Array    
+| `action`                                   | Log - Log sensitive data but continue or Reject - if sensitive data found return 401 (Unauthorized)         | String    
+
+
+### Example
+
+When calling the OpenAI API a user will potentially include sensitve data in the prompt.
+
+However, with Flex gateway being used and openai.api.com as the upstream api we can intercept the request and use pii checking utilities to look for sensitive data. In this case Microsoft's Presidio.
+
+This policy assumes you have already added your OpenAI API key to the request header. You can do this in your http client or use the policy [Open API Key Management Policy] (https://github.com/deejay-hub/openai-api-key-mgmt)
+
+```
+>  curl http://localhost:8081/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-3.5-turbo",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an assistant, skilled in explaining MuleSoft concepts with creative flair. Keep responses free from bias and without obsenities"
+      },
+      {
+        "role": "user",
+        "content": "create a poem about Flex Gateway in less than 20 words"
+      }
+    ]
+  }'
+  
+```
+
+## Try It
+These setup steps use Flex Gateway in connected mode running locally on a Mac. Make sure you have docker desktop installed.
+
+### Flex Gateway
+Step 1. Open Anypoint Platform and head to Runtime Manager. Select Flex Gateways then choose Container -> Docker.
+
+<p align="center">
+  <img alt="gateway-setup" src="images/add-gateway.png">
+</p>
+
+Step 2. Pull the flex gateway image and start the gateway on port 8081.
+
+a) Pull the latest image
+```
+docker pull mulesoft/flex-gateway
+```
+b) Create a new directory then register the Flex Gateway to Anypoint Platform replacing `gateway-name` with your own value.
+```
+docker run --entrypoint flexctl -u $UID \
+  -v "$(pwd)":/registration mulesoft/flex-gateway \
+  registration create --organization=adfa825c-fc0d-4ba3-a5ba-ab35a7194a39 \
+  --token=8eb976e5-9ab1-4048-bdd6-89504008632a \
+  --output-directory=/registration \
+  --connected=true \
+  <gateway-name>
+```
+c) Start the gateway
+```
+docker run --rm \
+  -v "$(pwd)":/usr/local/share/mulesoft/flex-gateway/conf.d \
+  -p 8081:8081 \
+  mulesoft/flex-gateway
+```
+
+Step 3. Head to API Manager in Anypoint. Select `Add API -> Add new API`.
+
+Step 4. Make sure Flex Gateway is selected as the runtime then select the Flex Gateway you created in Step 2. Click Next.
+
+Step 5. Select Create new API. Choose `OpenAI API` as the name and and `open-ai-api` as the asset id. Click Next.
+
+Step 6. Select Port `8081` and change the base path to `/flex-api`. Click Next.
+
+Step 7. Enter `https://openai.api.com/v1` as the upstream URL
+
+<p align="center">
+  <img alt="policy-config" src="images/api-settings.png">
+</p>
+
+Test the configuration by calling the Flex Gateway endpoint to see that you get a response from OpenAI. Note that since we don't include the OpenAI API key we will get a 401 unauthorised at this stage. Note that you will need to restrict the response payload so use terms like 'in less than 20 words' to get OpenAI to return a consumable response.
+
+```
+curl -X POST http://localhost:8081/flex-api/chat/completions   -H "Content-Type: application/json"  -d '{
+    "model": "gpt-3.5-turbo",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an assistant, skilled in explaining MuleSoft concepts with creative flair. Keep responses free from bias and without obsenities."
+      },
+      {
+        "role": "user",
+        "content": "Compose a poem in less than 10 words."
+      }
+    ]
+  }'
+```
+Step 8. After downloading the policy use `make build` then `make release`.
+
+Step 9. Apply the policy in API Manager to the API created in Step 3. In the openai-api-key section enter a valid key from OpenAI.
+
+<p align="center">
+  <img alt="policy-config" src="images/policy-config.png">
+</p>
+
+Step 10. Verify that the policy now successfully gets a response.
 
 ## Make command reference
 This project has a Makefile that includes different goals that assist the developer during the policy development lifecycle.
