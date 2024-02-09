@@ -4,3 +4,13 @@ playground/config/custom-policies/*
 .pdk
 registration.yaml
 certificate.yaml
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
