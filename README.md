@@ -30,7 +30,7 @@ The component has the following properties that can be set at design time in App
 
 When calling the OpenAI API a user will potentially include sensitve data in the prompt.
 
-However, with Flex gateway being used and openai.api.com as the upstream api we can intercept the request and use pii checking utilities to look for sensitive data. In this case Microsoft's Presidio.
+However, with Flex gateway being used and openai.api.com as the upstream api we can intercept the request and use pii checking utilities to look for sensitive data. In this case [Microsoft's Presidio](https://microsoft.github.io/presidio/).
 
 This policy assumes you have already added your OpenAI API key to the request header. You can do this in your http client or use the policy [Open API Key Management Policy](https://github.com/deejay-hub/openai-api-key-mgmt)
 
