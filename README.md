@@ -96,7 +96,48 @@ Step 4. Apply the policy in API Manager to the API created in Step 3. Leave all 
   <img alt="policy-config" src="images/policy-config.png">
 </p>
 
-Step 10. Verify that the policy now successfully gets a response.
+Step 5. With the policy applied with default settings any prompt data with name, drivers licence, credit card, email addresses or phone numbers will be rejected.
+
+To test it you can use the following:
+
+The following request should be okay since it contains no PII.
+```
+curl -X POST http://localhost:8081/flex-api/chat/completions   -H "Content-Type: application/json"  -d '{
+    "model": "gpt-3.5-turbo",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."
+      },
+      {
+        "role": "user",
+        "content": "Compose a poem in less than 10 words."
+      }
+    ]
+  }'
+```
+The following request should fail since we added a name
+
+```
+curl -X POST http://localhost:8081/flex-api/chat/completions   -H "Content-Type: application/json"  -d '{
+    "model": "gpt-3.5-turbo",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."
+      },
+      {
+        "role": "user",
+        "content": "Compose a poem in less than 10 words about Max Mule."
+      }
+    ]
+  }'
+```
+This should reply with the Unauthorized 401 response
+```
+Your OpenAI request has sensitive data:
+PERSON at 43,51: with certainty 0.85%
+```
 
 ## Make command reference
 This project has a Makefile that includes different goals that assist the developer during the policy development lifecycle.
