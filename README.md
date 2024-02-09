@@ -107,7 +107,7 @@ curl -X POST http://localhost:8081/flex-api/chat/completions   -H "Content-Type:
     "messages": [
       {
         "role": "system",
-        "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."
+        "content": "You are an assistant, skilled in explaining MuleSoft concepts with creative flair. Keep responses free from bias and without obsenities."
       },
       {
         "role": "user",
@@ -124,7 +124,7 @@ curl -X POST http://localhost:8081/flex-api/chat/completions   -H "Content-Type:
     "messages": [
       {
         "role": "system",
-        "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."
+        "content": "You are an assistant, skilled in explaining MuleSoft concepts with creative flair. Keep responses free from bias and without obsenities."
       },
       {
         "role": "user",
