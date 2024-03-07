@@ -97,16 +97,16 @@ Step 4. Apply the policy in API Manager to the API created in Step 1. Leave all 
 </p>
 
 Step 5. With the policy applied with default settings any prompt data with name, drivers licence, credit card, email addresses or phone numbers will be rejected. Other options you can add include
-CRYPTO
-DATE_TIME
-IBAN_CODE
-IP_ADDRESS
-LCOATION
-MEDICAL_LICENSE
-URL
-US_BANK_NUMBER
-US_ITIN
-UK_NHS
+- CRYPTO
+- DATE_TIME
+- IBAN_CODE
+- IP_ADDRESS
+- LCOATION
+- MEDICAL_LICENSE
+- URL
+- US_BANK_NUMBER
+- US_ITIN
+- UK_NHS
 and more all documented [here](https://microsoft.github.io/presidio/supported_entities/).
 
 To test it you can use the following:
