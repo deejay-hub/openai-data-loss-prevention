@@ -101,7 +101,7 @@ Step 5. With the policy applied with default settings any prompt data with name,
 - DATE_TIME
 - IBAN_CODE
 - IP_ADDRESS
-- LCOATION
+- LOCATION
 - MEDICAL_LICENSE
 - URL
 - US_BANK_NUMBER
